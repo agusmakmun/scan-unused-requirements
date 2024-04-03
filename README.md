@@ -4,7 +4,7 @@ Python tool to scan all unused packages in requirements.txt file for your projec
 
 ## Background
 
-One popular tool for checking requirements in a Python project is `pipdeptree`. However, the problem arises when we don't know which packages listed in the `requirements.txt` file are actually being used in the project. It's easy to check if your project is small, but as your project grows larger, it becomes a headache to check each one individually.
+One popular tool for checking requirements in a Python project is `pipdeptree`. However, the problem arises when we don't know which packages listed in the `requirements.txt` file are actually being used in the project or not. It's easy to check if your project is small, but as your project grows larger, it becomes a headache to check one by one.
 
 So, this tool comes in handy for easily identifying which exact packages are actually unused in our project.
 
