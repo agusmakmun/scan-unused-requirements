@@ -17,6 +17,7 @@ So, this tool comes in handy for easily identifying which exact packages are act
 ## Usage
 
 ```bash
+(env-myproject) ➜  myproject git:(development) ✗ git clone https://github.com/agusmakmun/scan-unused-requirements.git
 (env-myproject) ➜  myproject git:(development) ✗ python scan.py -r requirements.txt -p .
 
 [i] Please wait! It may take few minutes to complete...
