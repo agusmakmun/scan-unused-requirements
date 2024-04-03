@@ -105,7 +105,7 @@ def read_requirements(file_path: str) -> List[str]:
         List[str]: A list of package names extracted from the requirements file.
     """
     if not os.path.isfile(file_path):
-        raise FileNotFoundError(f"File not found: {file_path}")
+        raise FileNotFoundError(file_path)
 
     package_names: List[str] = []
     with open(file_path) as file:
@@ -127,15 +127,14 @@ def main(project_path: str, requirement_file: str):
 
     print("[i] Scanning unused packages:")
     unused_packages: List[str] = []
-    number: int = 1
+    number: int = 0
     for package_name in package_names:
         for module_name, package_names in main_packages.items():
             if package_name in package_names:
                 results: list = search_string_in_python_files(project_path, module_name)
                 if not results and (module_name not in unused_packages):
                     unused_packages.append(package_name)
-                    print(f" {number}. {package_name}")
-                    number += 1
+                    print(f" {number + 1}. {package_name}")
 
     if len(unused_packages) < 1:
         print("[i] Great! No unused packages found.")
