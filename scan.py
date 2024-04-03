@@ -127,14 +127,15 @@ def main(project_path: str, requirement_file: str):
 
     print("[i] Scanning unused packages:")
     unused_packages: List[str] = []
-    number: int = 0
+    number: int = 1
     for package_name in package_names:
         for module_name, package_names in main_packages.items():
             if package_name in package_names:
                 results: list = search_string_in_python_files(project_path, module_name)
                 if not results and (module_name not in unused_packages):
                     unused_packages.append(package_name)
-                    print(f" {number + 1}. {package_name}")
+                    print(f" {number}. {package_name}")
+                    number += 1
 
     if len(unused_packages) < 1:
         print("[i] Great! No unused packages found.")
