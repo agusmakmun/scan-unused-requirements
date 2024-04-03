@@ -136,6 +136,9 @@ def main(project_path: str, requirement_file: str):
                     unused_packages.append(package_name)
                     print(f" {number}. {package_name}")
                     number += 1
+
+    if len(unused_packages) < 1:
+        print("[+] Great! No unused packages found.")
     return unused_packages
 
 
@@ -145,7 +148,7 @@ if __name__ == "__main__":
         "-r",
         "--requirements",
         type=str,
-        required=True,
+        default="requirements.txt",
         help="Path to the requirements.txt file to read packages from.",
     )
     parser.add_argument(
