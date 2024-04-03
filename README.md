@@ -50,7 +50,7 @@ optional arguments:
 - [x] Support sys argv (command arguments)
    - [x] Directory to scan
    - [x] Requirement file to scan
-- [ ] Auto replace the package from requirements.txt file
+- [ ] Option to auto replace the package from requirements.txt file
 - [ ] Support multiple python versions
 - [ ] Make it as a command by adding file to /bin
 - [ ] Support multiple devices (Linux, Macbook, and Windows)
