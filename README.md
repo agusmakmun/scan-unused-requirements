@@ -2,6 +2,20 @@
 
 Python tool to scan all unused packages in requirements.txt file for your project.
 
+## Background
+
+One popular tool for checking requirements in a Python project is `pipdeptree`. However, the problem arises when we don't know which packages listed in the `requirements.txt` file are actually being used in the project. It's easy to check if your project is small, but as your project grows larger, it becomes a headache to check each one individually.
+
+So, this tool comes in handy for easily identifying which exact packages are actually unused in our project.
+
+
+> **Note:** Don't forget to double cross-check after finding the unused packages, \
+> because sometimes they are used in different cases without being imported in the code. \
+> For example: `argon2-cffi` used in `settings.PASSWORD_HASHERS = ["django.contrib.auth.hashers.Argon2PasswordHasher", ...]` for Django.
+
+
+## Usage
+
 ```bash
 (env-myproject) ➜  myproject git:(development) ✗ python scan.py -r requirements.txt -p .
 
@@ -15,10 +29,7 @@ Python tool to scan all unused packages in requirements.txt file for your projec
  6. phonenumbers
 ```
 
-Cool hah? 😎
-
-
-## Usage
+Cool right? 😎
 
 ```bash
 (env-myproject) ➜  scan-unused-requirements git:(master) ✗ python scan.py --help
