@@ -22,8 +22,8 @@ Cool hah? 😎
 # ToDo List
 
 - [x] Support sys argv (command arguments)
-      - [x] Directory to scan
-      - [x] Requirement file to scan
+   - [x] Directory to scan
+   - [x] Requirement file to scan
 - [ ] Auto replace the package from requirements.txt file
 - [ ] Support multiple python versions
 - [ ] Make it as a command by adding file to /bin
