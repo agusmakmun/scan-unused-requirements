@@ -22,7 +22,7 @@ Cool hah? 😎
 
 ```bash
 (env-myproject) ➜  scan-unused-requirements git:(master) ✗ python scan.py --help
-usage: scan.py [-h] -r REQUIREMENTS [-p PATH]
+usage: scan.py [-h] [-r REQUIREMENTS] [-p PATH]
 
 Scan for unused Python packages.
 
@@ -30,7 +30,7 @@ optional arguments:
   -h, --help            show this help message and exit
   -r REQUIREMENTS, --requirements REQUIREMENTS
                         Path to the requirements.txt file to read packages from.
-  -p PATH, --path PATH  Project path to scan for unused packages (default: current directory)
+  -p PATH, --path PATH  Project path to scan for unused packages (default: current directory).
 ```
 
 
