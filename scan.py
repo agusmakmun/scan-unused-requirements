@@ -125,7 +125,7 @@ def main(project_path: str, requirement_file: str):
     main_packages: dict = get_main_packages()
     package_names: List[str] = read_requirements(requirement_file)
 
-    print("[+] Scanning unused packages:")
+    print("[i] Scanning unused packages:")
     unused_packages: List[str] = []
     number: int = 1
     for package_name in package_names:
@@ -138,7 +138,7 @@ def main(project_path: str, requirement_file: str):
                     number += 1
 
     if len(unused_packages) < 1:
-        print("[+] Great! No unused packages found.")
+        print("[i] Great! No unused packages found.")
     return unused_packages
 
 

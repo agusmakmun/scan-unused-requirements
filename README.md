@@ -6,7 +6,7 @@ Python tool to scan all unused packages in requirements.txt file for your projec
 (env-myproject) ➜  myproject git:(development) ✗ python scan.py -r requirements.txt -p .
 
 [i] Please wait! It may take few minutes to complete...
-[+] Scanning unused packages:
+[i] Scanning unused packages:
  1. rcssmin
  2. argon2-cffi
  3. flower
