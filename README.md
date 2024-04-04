@@ -2,6 +2,8 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/scanreq.svg)](https://pypi.org/project/scanreq)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/scanreq.svg)](https://pypi.org/project/scanreq)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/agusmakmun/scan-unused-requirements/run-tests.yml?branch=master)](https://github.com/agusmakmun/scan-unused-requirements/actions/workflows/run-tests.yml)
+[![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 **ScanReq** - Python tool to scan all unused packages in requirements.txt file for your project.
 
@@ -76,6 +78,6 @@ optional arguments:
 - [x] Support CLI - make it as a command
 - [x] Write some tests
 - [x] Publish to PyPi
+- [x] Support multiple python versions
 - [ ] Support scan the `pyproject.toml`
-- [ ] Support multiple python versions
 - [ ] Support multiple devices (Linux, Macbook, and Windows)
