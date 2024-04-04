@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scanreq"
+dynamic = ["version"]
+description = "Python tool to scan all unused packages in requirements.txt file for your project."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["scan", "unused", "packages", "requirements"]
+authors = [{ name = "agusmakmun", email = "summon.agus@gmail.com" }]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = ["importlib_metadata>=7.1.0"]
+scripts.scanreq = "scanreq.__main__:main"
+
+[project.urls]
+Changelog = "https://github.com/agusmakmun/scan-unused-requirements/releases"
+Documentation = "https://github.com/agusmakmun/scanreq"
+Issues = "https://github.com/agusmakmun/scanreq/issues"
+Source = "https://github.com/agusmakmun/scanreq"
+
+[tool.hatch.version]
+path = "src/scanreq/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = ["coverage[toml]>=6.5", "pytest"]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = ["- coverage combine", "coverage report"]
+cov = ["test-cov", "cov-report"]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = ["mypy>=1.0.0"]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/scanreq tests}"
+
+[tool.coverage.run]
+source_pkgs = ["scanreq", "tests"]
+branch = true
+parallel = true
+omit = ["src/scanreq/__about__.py"]
+
+[tool.coverage.paths]
+scanreq = ["src/scanreq", "*/scanreq/src/scanreq"]
+tests = ["tests", "*/scanreq/tests"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/.github", "/.vscode", "/docs"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scanreq"]

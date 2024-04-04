@@ -1,5 +1,8 @@
 # ScanReq
 
+[![PyPI - Version](https://img.shields.io/pypi/v/scanreq.svg)](https://pypi.org/project/scanreq)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/scanreq.svg)](https://pypi.org/project/scanreq)
+
 **ScanReq** - Python tool to scan all unused packages in requirements.txt file for your project.
 
 ## Background
@@ -22,10 +25,18 @@ So, this tool comes in handy for easily identifying which exact packages are act
 10. **Code Better**: Keep your documentation and codebase cleaner for improved quality.
 
 
+## Installation
+
+
+```console
+pip3 install scanreq
+```
+
+
 ## Usage
 
-```bash
-(env-myproject) ➜  myproject git:(development) ✗ python scan.py -r requirements.txt -p .
+```console
+(env-myproject) ➜  myproject git:(development) ✗ scanreq -r requirements.txt -p .
 
 [i] Please wait! It may take few minutes to complete...
 [i] Scanning unused packages:
@@ -37,8 +48,8 @@ So, this tool comes in handy for easily identifying which exact packages are act
 
 Cool right? 😎
 
-```bash
-(env-myproject) ➜  scan-unused-requirements git:(master) ✗ python scan.py --help
+```console
+(env-myproject) ➜  myproject git:(development) ✗ scanreq --help
 usage: scan.py [-h] [-r REQUIREMENTS] [-p PATH]
 
 Scan for unused Python packages.
@@ -62,9 +73,9 @@ optional arguments:
    - [x] Requirement file to scan
    - [ ] Option to auto replace the package from requirements.txt file
    - [ ] Option to exclude or ignore some packages
-- [ ] Support multiple python versions
-- [ ] Support CLI - make it as a command
-- [ ] Support multiple devices (Linux, Macbook, and Windows)
-- [ ] Write some tests
-- [ ] Publish to PyPi
+- [x] Support CLI - make it as a command
+- [x] Write some tests
+- [x] Publish to PyPi
 - [ ] Support scan the `pyproject.toml`
+- [ ] Support multiple python versions
+- [ ] Support multiple devices (Linux, Macbook, and Windows)
