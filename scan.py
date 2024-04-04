@@ -2,7 +2,7 @@ import argparse
 import multiprocessing
 import os
 import re
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import importlib_metadata
 
@@ -16,6 +16,15 @@ Logic:
    - If yes, scan to check if their "module_name" if it used in the project or not.
      - If not, then print the "packages name".
 """
+
+# allowed extensions to scan
+ALLOWED_EXTENSIONS: Tuple[str] = (
+    ".py",
+    ".conf",
+    ".cfg",
+    ".yml",
+    ".yaml",
+)
 
 
 def get_main_packages() -> dict:
@@ -37,6 +46,7 @@ def get_main_packages() -> dict:
     for module_name, package_names in packages.items():
         if (
             not any(exclude in module_name for exclude in excluded_packages)
+            and not module_name.startswith("_")
             and package_names
             and isinstance(package_names, list)
         ):
@@ -82,7 +92,7 @@ def search_string_in_python_files(directory: str, search_string: str) -> List[st
     pool = multiprocessing.Pool()
     for root, _, files in os.walk(directory):
         for file_name in files:
-            if file_name.endswith(".py"):
+            if file_name.endswith(ALLOWED_EXTENSIONS):
                 file_path = os.path.join(root, file_name)
                 found_file = pool.apply_async(
                     search_string_in_file, (file_path, search_string)
@@ -134,7 +144,9 @@ def main(project_path: str, requirement_file: str):
                 results: list = search_string_in_python_files(project_path, module_name)
                 if not results and (module_name not in unused_packages):
                     unused_packages.append(package_name)
-                    print(f" {number}. {package_name}")
+                    print(
+                        f" {number}. Module: {module_name} ---> Package: {package_name}"
+                    )
                     number += 1
 
     if len(unused_packages) < 1:

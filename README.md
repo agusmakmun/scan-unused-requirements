@@ -29,12 +29,10 @@ So, this tool comes in handy for easily identifying which exact packages are act
 
 [i] Please wait! It may take few minutes to complete...
 [i] Scanning unused packages:
- 1. rcssmin
- 2. argon2-cffi
- 3. flower
- 4. django-model-utils
- 5. pinax-theme-bootstrap
- 6. phonenumbers
+ 1. Module: rcssmin ---> Package: rcssmin
+ 2. Module: model_utils ---> Package: django-model-utils
+ 3. Module: pinax_theme_bootstrap ---> Package: pinax-theme-bootstrap
+ 4. Module: phonenumbers ---> Package: phonenumbers
 ```
 
 Cool right? 😎
