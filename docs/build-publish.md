@@ -21,6 +21,12 @@ $ hatch new scanreq
 $ hatch run test -vv
 ```
 
+Executing the script:
+
+```console
+$ hatch run python src/scanreq/__main__.py -r requirements.txt -p .
+```
+
 
 ### 3. Versioning
 

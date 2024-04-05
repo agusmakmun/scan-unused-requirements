@@ -23,6 +23,7 @@ ALLOWED_EXTENSIONS: Tuple[str] = (
     ".cfg",
     ".yml",
     ".yaml",
+    "Dockerfile",
 )
 
 
@@ -126,3 +127,43 @@ def read_requirements(file_path: str) -> List[str]:
                 package_name: str = line.split("==")[0].strip().lower()
                 package_names.append(package_name)
     return package_names
+
+
+def scan(requirement_file: str, project_path: str, output_path: str = None) -> None:
+    """
+    A function that scans for unused packages in a project based on a given requirements file.
+
+    Parameters:
+        - requirement_file (str): the path to the requirements file to be scanned.
+        - project_path (str): the path to the project to be scanned.
+        - output_path (str, optional): the path to the output file where unused packages will be saved. Defaults to None.
+
+    Returns:
+        - None
+    """
+    print("\n[i] Please wait! It may take few minutes to complete...")
+
+    package_names: List[str] = read_requirements(requirement_file)
+    main_packages: dict = get_main_packages()
+
+    print("[i] Scanning unused packages:")
+    unused_packages: List[str] = []
+    number: int = 1
+    for package_name in package_names:
+        for module_name, package_names in main_packages.items():
+            if package_name in package_names:
+                results: list = search_string_in_python_files(project_path, module_name)
+                if not results and (module_name not in unused_packages):
+                    unused_packages.append(package_name)
+                    number_str: str = f"{number}."
+                    print(
+                        f" {number_str: <4}Module: {module_name: <30}-> Package: {package_name}"
+                    )
+                    number += 1
+
+    if len(unused_packages) < 1:
+        print("[i] Great! No unused packages found.")
+
+    elif unused_packages and output_path:
+        with open(output_path, "w") as _file:
+            _file.writelines("\n".join(unused_packages) + "\n")

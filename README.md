@@ -37,22 +37,40 @@ pip3 install scanreq
 
 ## Usage
 
-```console
-(env-myproject) ➜  myproject git:(development) ✗ scanreq -r requirements.txt -p .
+> **Note:** Ensure you're working on python environment.
 
+```console
+scanreq -r requirements.txt -p . -o unused-requirements.txt
+```
+
+```
 [i] Please wait! It may take few minutes to complete...
 [i] Scanning unused packages:
- 1. Module: rcssmin ---> Package: rcssmin
- 2. Module: model_utils ---> Package: django-model-utils
- 3. Module: pinax_theme_bootstrap ---> Package: pinax-theme-bootstrap
- 4. Module: phonenumbers ---> Package: phonenumbers
+ 1.  Module: rcssmin                       -> Package: rcssmin
+ 2.  Module: model_utils                   -> Package: django-model-utils
+ 3.  Module: pinax_theme_bootstrap         -> Package: pinax-theme-bootstrap
+ 4.  Module: phonenumbers                  -> Package: phonenumbers
+```
+
+```console
+cat unused-requirements.txt
+```
+
+```
+rcssmin
+django-model-utils
+pinax-theme-bootstrap
+phonenumbers
 ```
 
 Cool right? 😎
 
 ```console
-(env-myproject) ➜  myproject git:(development) ✗ scanreq --help
-usage: scan.py [-h] [-r REQUIREMENTS] [-p PATH]
+scanreq --help
+```
+
+```
+usage: scan.py [-h] [-r REQUIREMENTS] [-p PATH] [-o OUTPUT]
 
 Scan for unused Python packages.
 
@@ -61,6 +79,8 @@ optional arguments:
   -r REQUIREMENTS, --requirements REQUIREMENTS
                         Path to the requirements.txt file to read packages from.
   -p PATH, --path PATH  Project path to scan for unused packages (default: current directory).
+  -o OUTPUT, --output OUTPUT
+                        Path to the output file where unused packages will be saved.
 ```
 
 > **Note:** Don't forget to cross-check the unused packages after finding them,
@@ -73,6 +93,7 @@ optional arguments:
 - [x] Support argument parser (command arguments)
    - [x] Directory to scan
    - [x] Requirement file to scan
+   - [x] Option to write the output of unused packages
    - [ ] Option to auto replace the package from requirements.txt file
    - [ ] Option to exclude or ignore some packages
 - [x] Support CLI - make it as a command
