@@ -37,7 +37,7 @@ pip3 install scanreq
 
 ## Usage
 
-> **Note:** Ensure you're working on python environment.
+> **Note:** Ensure you're working on python environment & already installed all your project requirements.txt
 
 ```console
 scanreq -r requirements.txt -p . -o unused-requirements.txt
