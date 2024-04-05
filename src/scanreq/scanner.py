@@ -161,6 +161,7 @@ def scan(requirement_file: str, project_path: str, output_path: str = None) -> N
                     )
                     number += 1
 
+    unused_packages = list(set(unused_packages))
     if len(unused_packages) < 1:
         print("[i] Great! No unused packages found.")
 
