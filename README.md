@@ -102,5 +102,5 @@ optional arguments:
 - [x] Write some tests
 - [x] Publish to PyPi
 - [x] Support multiple python versions
+- [x] Support multiple devices (Linux, Macbook, and Windows)
 - [ ] Support scan the `pyproject.toml`
-- [ ] Support multiple devices (Linux, Macbook, and Windows)
