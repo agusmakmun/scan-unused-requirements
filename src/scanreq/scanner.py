@@ -17,7 +17,7 @@ Logic:
 """
 
 # allowed extensions to scan
-ALLOWED_EXTENSIONS: Tuple[str] = (
+DEFAULT_ALLOWED_EXTENSIONS: Tuple[str] = (
     ".py",
     ".conf",
     ".cfg",
@@ -25,6 +25,29 @@ ALLOWED_EXTENSIONS: Tuple[str] = (
     ".yaml",
     "Dockerfile",
 )
+
+# default ignored packages to scan
+DEFAULT_IGNORED_PACKAGES: List[str] = [
+    "scanreq",
+    "ipdb",
+    "mypy",
+    "isort",
+    "black",
+    "flake8",
+    "twine",
+    "codespell",
+    "django-coverage-plugin",
+    "pytest-sugar",
+    "pytest-cov",
+    "pytest-asyncio",
+    "pytest-mock",
+    "pytest-subtests",
+    "pytest-xdist",
+    "pylint-django",
+    "pylint-celery",
+    "pytest-django",
+    "pre-commit",
+]
 
 
 def get_main_packages() -> dict:
@@ -92,7 +115,7 @@ def search_string_in_python_files(directory: str, search_string: str) -> List[st
     pool = multiprocessing.Pool()
     for root, _, files in os.walk(directory):
         for file_name in files:
-            if file_name.endswith(ALLOWED_EXTENSIONS):
+            if file_name.endswith(DEFAULT_ALLOWED_EXTENSIONS):
                 file_path = os.path.join(root, file_name)
                 found_file = pool.apply_async(
                     search_string_in_file, (file_path, search_string)
@@ -101,6 +124,32 @@ def search_string_in_python_files(directory: str, search_string: str) -> List[st
     pool.close()
     pool.join()
     return [result.get() for result in found_files if result.get()]
+
+
+def clean_package_name(package_name: str) -> str:
+    """
+    Clean the package name by removing any version number and extra spaces, and converting to lowercase.
+    For example:
+    - "django==3.2" -> "django", "Django==3.2" -> "django"
+    - "Flask>=1.0" -> "flask", "Flask<=1.0" -> "flask"
+    - "django-cookie-cutter<2.0" -> "django-cookiecutter"
+    - "django-cookie-cutter>2.0" -> "django-cookiecutter"
+    - "NumPy" -> "numpy"
+
+    Args:
+        package_name (str): The name of the package.
+
+    Returns:
+        str: The cleaned package name.
+    """
+    # Remove the version number and any relational operators
+    cleaned_name = re.sub(r"[<=>!]=?\d+(\.\d+)*", "", package_name)
+    # Replace any hyphens followed by non-alphanumeric characters (like hyphen version separator)
+    cleaned_name = re.sub(r"-[^a-zA-Z0-9]", "", cleaned_name)
+    # Remove any remaining non-alphanumeric characters except hyphens and underscores
+    cleaned_name = re.sub(r"[^a-zA-Z0-9-_]", "", cleaned_name)
+    # Convert to lowercase and strip extra spaces
+    return cleaned_name.strip().lower()
 
 
 def read_requirements(file_path: str) -> List[str]:
@@ -124,12 +173,17 @@ def read_requirements(file_path: str) -> List[str]:
             line = re.sub(r"#.*", "", line).strip()
             if line:
                 # Split the line to get the package name
-                package_name: str = line.split("==")[0].strip().lower()
+                package_name: str = clean_package_name(line)
                 package_names.append(package_name)
     return package_names
 
 
-def scan(requirement_file: str, project_path: str, output_path: str = None) -> None:
+def scan(
+    requirement_file: str,
+    project_path: str,
+    output_path: str = None,
+    ignored_packages: List[str] = [],
+) -> None:
     """
     A function that scans for unused packages in a project based on a given requirements file.
 
@@ -137,6 +191,7 @@ def scan(requirement_file: str, project_path: str, output_path: str = None) -> N
         - requirement_file (str): the path to the requirements file to be scanned.
         - project_path (str): the path to the project to be scanned.
         - output_path (str, optional): the path to the output file where unused packages will be saved. Defaults to None.
+        - ignored_packages (List[str], optional): a list of package names to be ignored. Defaults to [].
 
     Returns:
         - None
@@ -146,12 +201,22 @@ def scan(requirement_file: str, project_path: str, output_path: str = None) -> N
     package_names: List[str] = read_requirements(requirement_file)
     main_packages: dict = get_main_packages()
 
+    # ignored packages to scan
+    ignored_packages = (
+        DEFAULT_IGNORED_PACKAGES + [clean_package_name(pkg) for pkg in ignored_packages]
+        if ignored_packages
+        else DEFAULT_IGNORED_PACKAGES
+    )
+
     print("[i] Scanning unused packages:")
     unused_packages: List[str] = []
     number: int = 1
     for package_name in package_names:
-        for module_name, package_names in main_packages.items():
-            if package_name in package_names:
+        for module_name, main_package_names in main_packages.items():
+            if (
+                package_name in main_package_names
+                and package_name not in ignored_packages
+            ):
                 results: list = search_string_in_python_files(project_path, module_name)
                 if not results and (module_name not in unused_packages):
                     unused_packages.append(package_name)

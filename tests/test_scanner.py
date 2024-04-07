@@ -4,6 +4,7 @@ from unittest import mock
 import pytest
 
 from src.scanreq.scanner import (
+    clean_package_name,
     get_main_packages,
     read_requirements,
     search_string_in_file,
@@ -86,6 +87,22 @@ def test_search_string_in_python_files(create_test_files):
     found_files = search_string_in_python_files(directory, search_string)
     assert expected_file in found_files
     assert len(found_files) == 1
+
+
+@pytest.mark.parametrize(
+    "package_name, expected",
+    [
+        ("django==3.2", "django"),
+        (" Django==3.2 ", "django"),
+        ("Flask>=1.0", "flask"),
+        ("requests", "requests"),
+        (" NumPy ", "numpy"),
+        ("django-cookie-cutter>2.0", "django-cookie-cutter"),
+        ("django-cookie-cutter<2.0", "django-cookie-cutter"),
+    ],
+)
+def test_clean_package_name(package_name, expected):
+    assert clean_package_name(package_name) == expected
 
 
 def test_read_requirements_valid_file(tmp_path):

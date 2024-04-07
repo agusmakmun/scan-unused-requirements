@@ -40,7 +40,7 @@ pip3 install scanreq
 > **Note:** Ensure you're working on python environment & already installed all your project requirements.txt
 
 ```console
-scanreq -r requirements.txt -p . -o unused-requirements.txt
+scanreq -r requirements.txt -p . -o unused-requirements.txt -i black,flake8
 ```
 
 ```
@@ -70,7 +70,7 @@ scanreq --help
 ```
 
 ```
-usage: scan.py [-h] [-r REQUIREMENTS] [-p PATH] [-o OUTPUT]
+usage: scanreq [-h] [-r REQUIREMENTS] [-p PATH] [-o OUTPUT] [-i IGNORED_PACKAGES]
 
 Scan for unused Python packages.
 
@@ -81,6 +81,8 @@ optional arguments:
   -p PATH, --path PATH  Project path to scan for unused packages (default: current directory).
   -o OUTPUT, --output OUTPUT
                         Path to the output file where unused packages will be saved.
+  -i IGNORED_PACKAGES, --ignored-packages IGNORED_PACKAGES
+                        Comma separated list of package names to be ignored.
 ```
 
 > **Note:** Don't forget to cross-check the unused packages after finding them,
@@ -94,8 +96,8 @@ optional arguments:
    - [x] Directory to scan
    - [x] Requirement file to scan
    - [x] Option to write the output of unused packages
+   - [x] Option to exclude or ignore some packages
    - [ ] Option to auto replace the package from requirements.txt file
-   - [ ] Option to exclude or ignore some packages
 - [x] Support CLI - make it as a command
 - [x] Write some tests
 - [x] Publish to PyPi

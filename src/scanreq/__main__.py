@@ -26,12 +26,22 @@ def main():
         default=None,
         help="Path to the output file where unused packages will be saved.",
     )
+    parser.add_argument(
+        "-i",
+        "--ignored-packages",
+        type=str,
+        default=None,
+        help="Comma separated list of package names to be ignored.",
+    )
     args = parser.parse_args()
 
     scan(
         requirement_file=args.requirements,
         project_path=args.path,
         output_path=args.output,
+        ignored_packages=(
+            args.ignored_packages.split(",") if args.ignored_packages else []
+        ),
     )
 
 
