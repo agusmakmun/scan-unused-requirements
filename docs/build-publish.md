@@ -27,6 +27,18 @@ Executing the script:
 $ hatch run python src/scanreq/__main__.py -r requirements.txt -p .
 ```
 
+Check the type checking using `mypy`:
+
+```console
+hatch run types:check src/
+```
+
+OR:
+
+```console
+hatch run mypy src/
+```
+
 
 ### 3. Versioning
 

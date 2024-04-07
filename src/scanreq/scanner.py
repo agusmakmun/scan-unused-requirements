@@ -1,7 +1,7 @@
 import multiprocessing
 import os
 import re
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import importlib_metadata
 
@@ -17,7 +17,7 @@ Logic:
 """
 
 # allowed extensions to scan
-DEFAULT_ALLOWED_EXTENSIONS: Tuple[str] = (
+DEFAULT_ALLOWED_EXTENSIONS: Tuple[str, ...] = (
     ".py",
     ".conf",
     ".cfg",
@@ -111,7 +111,7 @@ def search_string_in_python_files(directory: str, search_string: str) -> List[st
     Returns:
     - A list of strings containing the paths to the files where the search_string was found.
     """
-    found_files: List[str] = []
+    found_files: List[Any] = []
     pool = multiprocessing.Pool()
     for root, _, files in os.walk(directory):
         for file_name in files:
@@ -132,8 +132,8 @@ def clean_package_name(package_name: str) -> str:
     For example:
     - "django==3.2" -> "django", "Django==3.2" -> "django"
     - "Flask>=1.0" -> "flask", "Flask<=1.0" -> "flask"
-    - "django-cookie-cutter<2.0" -> "django-cookiecutter"
-    - "django-cookie-cutter>2.0" -> "django-cookiecutter"
+    - "django-cookie-cutter<2.0" -> "django-cookie-cutter"
+    - "django-cookie-cutter>2.0" -> "django-cookie-cutter"
     - "NumPy" -> "numpy"
 
     Args:
@@ -181,7 +181,7 @@ def read_requirements(file_path: str) -> List[str]:
 def scan(
     requirement_file: str,
     project_path: str,
-    output_path: str = None,
+    output_path: Optional[str] = None,
     ignored_packages: List[str] = [],
 ) -> None:
     """
