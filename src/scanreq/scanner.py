@@ -100,16 +100,16 @@ def search_string_in_file(file_path: str, search_string: str) -> Optional[str]:
     return None
 
 
-def search_string_in_python_files(directory: str, search_string: str) -> List[str]:
+def search_string_in_files(directory: str, search_string: str) -> List[str]:
     """
-    A function that searches for a specific string in all Python files within a given directory.
+    Search for a specific string within files in a given directory using multiprocessing.
 
-    Parameters:
-    - directory: A string representing the path to the directory to search in.
-    - search_string: A string representing the specific string to search for in the files.
+    Args:
+        directory (str): The directory path to search for files.
+        search_string (str): The string to search for within the files.
 
     Returns:
-    - A list of strings containing the paths to the files where the search_string was found.
+        List[str]: A list of file paths where the search_string was found.
     """
     found_files: List[Any] = []
     pool = multiprocessing.Pool()
@@ -217,7 +217,7 @@ def scan(
                 package_name in main_package_names
                 and package_name not in ignored_packages
             ):
-                results: list = search_string_in_python_files(project_path, module_name)
+                results: list = search_string_in_files(project_path, module_name)
                 if not results and (module_name not in unused_packages):
                     unused_packages.append(package_name)
                     number_str: str = f"{number}."

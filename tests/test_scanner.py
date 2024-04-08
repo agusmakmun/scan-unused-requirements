@@ -8,7 +8,7 @@ from src.scanreq.scanner import (
     get_main_packages,
     read_requirements,
     search_string_in_file,
-    search_string_in_python_files,
+    search_string_in_files,
 )
 
 
@@ -79,12 +79,12 @@ def create_test_files(tmp_path):
     return sub_dir
 
 
-def test_search_string_in_python_files(create_test_files):
+def test_search_string_in_files(create_test_files):
     directory = str(create_test_files)
     search_string = "foo"
     expected_file = os.path.join(directory, "test2.py")
 
-    found_files = search_string_in_python_files(directory, search_string)
+    found_files = search_string_in_files(directory, search_string)
     assert expected_file in found_files
     assert len(found_files) == 1
 
@@ -99,6 +99,7 @@ def test_search_string_in_python_files(create_test_files):
         (" NumPy ", "numpy"),
         ("django-cookie-cutter>2.0", "django-cookie-cutter"),
         ("django-cookie-cutter<2.0", "django-cookie-cutter"),
+        ("Django-Allauth>5.0", "django-allauth"),
     ],
 )
 def test_clean_package_name(package_name, expected):
